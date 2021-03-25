@@ -1,38 +1,104 @@
-
-{% block content %}
-
-<div class="container m-50 mt-5">
-    <form method="GET">
-        {% csrf_token %}
-        {% for field in forms %}
-        <div>
-            {{field.label}}
-        </div>
-        <div>
-            {{field}}
-        </div>     
-        {% endfor %}
-    </form>
- 
-    <div>
-        <h2>Weather Forecast Response</h2>
-        {% for data in detailed_data %}
-        <hr>
-            <p>City: <strong>{{data.state}}</strong></p>
-            <p>Country Code: <strong>{{data.country}}</strong></p>
-        <hr>
-        <p>There is going to be <strong>{{data.description}}</strong> in <strong>{{data.state}}</strong> today</p>
-         <p>Also its going to be <strong>{{data.cloud}}%</strong> cloudy</p>
-        <p>as the minimum temperature of <strong>{{data.min_temp}}°C</strong> and a maximum temperature of  <strong>{{data.max_temp}}°C</strong> today</p>
-         <p>The wind blows at <strong>{{data.wind}}m/s</p>
-             <form action="" method="POST">
-              {% csrf_token %}
-              <button type="submit" value="pdf" name="submit">{{data.button}}</button>
-              <!-- <input type="submit" value="Download" name="d" > -->
-        </form>
-        {% endfor %}
-       
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+  </head>
+  <body>
     
+
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-sm-6">
+            <div class="container-fluid mt-5">
+                    <form method="GET" class="text-center">
+                            {% csrf_token %}
+                            <input {% if forms.city %}Checked {% endif %} name="city", class="form-control city" placeholder="Enter the city ">
+                            <button type="submit" class="btn btn-primary  mt-3">Send</button>
+                    </form>
+            </div>
+            <div class="container mt-5">
+                    <div class="container shadow-lg">
+
+                        {% for data in detailed_data %}
+                            <div class="card border-light mb-3" >
+                            <div class="card-header btn-outline-secondary" >Weather Forecast Result <span class="offset-3 text-end">{{data.timestamp}}</span></div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{data.state}} in {{data.country}}</h5>
+                                <p class="card-text">We are pleased to inform your that there shall be <span class="span"> {{data.description}}</span> in the city of {{data.state}} today</p>
+                                <p>Also <span class="span">{{data.cloud}}% </span>cloudy weather</p>
+                                <p>With a minimum temperature of <span class="span">{{data.min_temp}}&deg;C </span> amd a maximum temperature of <span class="span">{{data.max_temp}}&deg;C</span></p>
+                                <p>It may also interest you to know that the wind blows at <span class="span">{{data.wind}}m/s</span></p>
+                            </div>
+                            <div class="card-footer btn btn-outline-secondary">Thanks for using power weather, do have a lovely day</div>
+                            </div>
+                            {% endfor %}
+                    </div>
+            </div>
+
+        </div>
+        <div class="col-sm-6">
+            <div class="img-fluid">
+                <img src="{% static 'img/weather.png' %}" class="img-fluid" alt="Bold image">
+            </div>
+        </div>
+
+       
+  </div>
 </div>
-{% endblock content %}
+
+
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+  
+    <style>
+      body{
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+      }
+    </style>
+
+
+<!--================Footer Area =================-->
+        <footer class="footer_area p_120 bg-dark" style="color:white;">
+        	<div class="container ">
+        		<div class="row footer_inner ">
+        			<div class="col-lg-6 col-sm-6 mt-5">
+        				<aside class="f_widget ab_widget">
+        		
+        				
+        					<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                  Copyright &copy;<script>document.write(new Date().getFullYear());</script>(Innotex) All rights reserved 
+                  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                  </p>
+        				</aside>
+        			</div>
+        
+        			<div class="col-lg-3 col-sm-3 mt-5">
+        				<div class="f_widget social_widget">
+               <p>Let us be social  <span <i class="fa fa-arrow-right"></i></span></p>
+        			</div>
+            </div>
+              	<div class="col-lg-3 col-sm-3 mt-5">
+        				  <div class="f_widget social_widget">
+        						<a href="#" class="btn btn-primary"><i class="fa fa-facebook"></i></a>
+        						<a href="#" class="btn btn-info"><i class="fa fa-twitter"></i></a>
+        						<a href="#" class="btn btn-secondary"><i class="fa fa-github"></i></a>
+        						<a href="#" class="btn btn-primary"><i class="fa fa-linkedin"></i></a>
+        				  </div>
+        			</div>
+        		</div>
+        	</div>
+        </footer>
+
+        <style>
+            .span{
+                color:blue;
+            }
+        </style>
+
+  </body>
+</html>
