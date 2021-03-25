@@ -1,0 +1,38 @@
+
+{% block content %}
+
+<div class="container m-50 mt-5">
+    <form method="GET">
+        {% csrf_token %}
+        {% for field in forms %}
+        <div>
+            {{field.label}}
+        </div>
+        <div>
+            {{field}}
+        </div>     
+        {% endfor %}
+    </form>
+ 
+    <div>
+        <h2>Weather Forecast Response</h2>
+        {% for data in detailed_data %}
+        <hr>
+            <p>City: <strong>{{data.state}}</strong></p>
+            <p>Country Code: <strong>{{data.country}}</strong></p>
+        <hr>
+        <p>There is going to be <strong>{{data.description}}</strong> in <strong>{{data.state}}</strong> today</p>
+         <p>Also its going to be <strong>{{data.cloud}}%</strong> cloudy</p>
+        <p>as the minimum temperature of <strong>{{data.min_temp}}°C</strong> and a maximum temperature of  <strong>{{data.max_temp}}°C</strong> today</p>
+         <p>The wind blows at <strong>{{data.wind}}m/s</p>
+             <form action="" method="POST">
+              {% csrf_token %}
+              <button type="submit" value="pdf" name="submit">{{data.button}}</button>
+              <!-- <input type="submit" value="Download" name="d" > -->
+        </form>
+        {% endfor %}
+       
+    </div>
+    
+</div>
+{% endblock content %}
